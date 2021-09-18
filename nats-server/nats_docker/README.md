@@ -150,16 +150,43 @@ nats-1_1  | [1] 2019/10/19 06:41:27.153078 [INF] 172.18.0.4:6222 - rid:3 - Route
 
 Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
 
+Open a new shell.
 ```bash
 $ docker run --network nats --rm -it synadia/nats-box
-~ # nats-sub -s nats://nats:4222 hello &
+~ # nats sub -s nats://nats:4222 hello
 Listening on [hello]
 
-~ # nats-pub -s "nats://nats-1:4222" hello first
-~ # nats-pub -s "nats://nats-2:4222" hello second
 ```
 
+Open a new shell.
+```bash
+docker run --network nats --rm -it synadia/nats-box
+~ # nats pub -s "nats://nats-1:4222" hello first
+~ # nats pub -s "nats://nats-2:4222" hello second
+```
+
+Check the two open shells, and the two pub/sub have been completed
+```bash
+~# nats pub -s "nats://nats-1:4222" hello first
+07:59:45 Published 5 bytes to "hello"
+
+~# nats pub -s "nats://nats-2:4222" hello second
+07:59:53 Published 6 bytes to "hello"
+```
+
+```bash
+~# nats sub -s nats://nats:4222 hello
+07:59:34 Subscribing on hello
+[#1] Received on "hello"
+first
+
+[#2] Received on "hello"
+second
+```
+
+
 Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
+
 
 ```bash
 $ docker stop nats
