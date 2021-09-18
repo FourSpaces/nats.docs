@@ -13,7 +13,7 @@ If you have a client library installed, you can try using a bundled client. Othe
 
 ## Or download a zip file
 
-You can install pre-built binaries from the [go-nats-examples repo](https://github.com/nats-io/go-nats-examples/releases/tag/0.0.50)
+You can install pre-built binaries from the [natscli repo](https://github.com/nats-io/natscli/releases)
 
 ## Testing your setup
 
@@ -31,7 +31,7 @@ Open a terminal and [start a nats-server](running/):
 On another terminal session start a subscriber:
 
 ```text
-> nats-sub ">"
+> nats sub ">"
 Listening on [>]
 ```
 
@@ -59,14 +59,14 @@ If you had created a subscriber, you should notice output on the subscriber tell
 On a third terminal, publish your first message:
 
 ```text
-> nats-pub hello world
+> nats pub hello world
 Published [hello] : 'world'
 ```
 
 On the subscriber window you should see:
 
 ```text
-> nats-sub ">"
+> nats sub ">"
 Listening on [>]
 [#1] Received on [hello] : 'world'
 ```
@@ -76,12 +76,12 @@ Listening on [>]
 If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_. NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
 
 ```text
-> nats-sub -s nats://server:port ">"
+> nats sub -s nats://server:port ">"
 ```
 
 If you want to try on a remote server, the NATS team maintains a demo server you can reach at `demo.nats.io`.
 
 ```text
-> nats-sub -s nats://demo.nats.io ">"
+> nats sub -s nats://demo.nats.io ">"
 ```
 
